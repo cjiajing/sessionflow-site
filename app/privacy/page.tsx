@@ -37,4 +37,8 @@ export default function PrivacyPage() {
       <h2>Location Data</h2>
       <p>
         If you enable location-based reminders, SessionFlow may use your
-        approximate location to notify you when you arrive at a session
+        approximate location to notify you when you arrive at a session.
+      </p>
+    </main>
+  );
+}
