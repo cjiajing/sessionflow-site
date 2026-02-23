@@ -1,6 +1,8 @@
 // app/page.tsx
 import Link from "next/link";
 
+const APP_STORE_URL = "https://apps.apple.com/sg/app/sessionflow/id6751904352";
+
 export default function HomePage() {
   return (
     <div>
@@ -18,18 +20,20 @@ export default function HomePage() {
 
             <p className="mt-4 text-lg text-slate-600">
               SessionFlow helps tutors, coaches, trainers, and freelancers track hours,
-              schedule sessions, and manage payments — without messy spreadsheets.
+              schedule sessions, manage payments, and export invoices — without messy spreadsheets.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              {/* TODO: replace with your real App Store link */}
               <a
                 id="cta"
-                href="https://apps.apple.com/"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-slate-800"
               >
                 Download on the App Store
               </a>
+
               <Link
                 href="#features"
                 className="rounded-xl border border-slate-300 px-5 py-3 text-center text-sm font-semibold hover:bg-slate-50"
@@ -38,14 +42,26 @@ export default function HomePage() {
               </Link>
             </div>
 
+            <p className="mt-3 text-xs text-slate-500">
+              Available on iPhone & iPad •{" "}
+              <a
+                className="underline"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View on the App Store
+              </a>
+            </p>
+
             <div className="mt-6 grid gap-3 text-sm text-slate-700 sm:grid-cols-3">
               <MiniCard title="Hours tracked" desc="Know exactly what you worked" />
               <MiniCard title="Payment status" desc="See unpaid at a glance" />
-              <MiniCard title="Simple system" desc="Sessions, notes, fees" />
+              <MiniCard title="Invoice export" desc="Generate & export invoices" />
             </div>
           </div>
 
-          {/* Mock preview (swap with screenshots later) */}
+          {/* Preview (swap with real screenshots later) */}
           <div className="rounded-3xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 shadow-sm">
             <div className="flex items-center justify-between">
               <div className="text-sm font-semibold">This week</div>
@@ -58,7 +74,7 @@ export default function HomePage() {
             </div>
 
             <p className="mt-4 text-xs text-slate-500">
-              Tip: screenshots increase conversions a lot — add 2–3 real ones here later.
+              Tip: Add 2–3 real screenshots here later for higher conversions.
             </p>
           </div>
         </div>
@@ -85,11 +101,11 @@ export default function HomePage() {
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           <FeatureCard title="Session tracking" desc="Log sessions fast. Auto-tally hours and fees." />
-          <FeatureCard title="Payment status" desc="See who’s paid, who’s overdue, and what’s due next." />
-          <FeatureCard title="Reminders" desc="Nudges so you don’t miss billing and follow-ups." />
-          <FeatureCard title="Notes & progress" desc="Keep lesson notes and progress in one place." />
-          <FeatureCard title="Export summaries" desc="Generate clean summaries when you need them." />
-          <FeatureCard title="Made for mobile" desc="Quick updates between sessions." />
+          <FeatureCard title="Flexible scheduling" desc="Plan sessions and stay organised week to week." />
+          <FeatureCard title="Payment tracking" desc="See paid, unpaid, overdue, and what’s due next." />
+          <FeatureCard title="Invoice export" desc="Generate and export professional invoices when needed." />
+          <FeatureCard title="Location reminders" desc="Optional check-in reminders when you arrive at a session." />
+          <FeatureCard title="Insights dashboard" desc="Quick view of hours, sessions, and payment status." />
         </div>
       </section>
 
@@ -99,9 +115,9 @@ export default function HomePage() {
           <h2 className="text-3xl font-semibold tracking-tight">How it works</h2>
 
           <div className="mt-8 grid gap-5 md:grid-cols-3">
-            <StepCard title="1) Add clients/students" desc="Basic details, rates, and preferences." />
-            <StepCard title="2) Log sessions" desc="Hours, notes, fees — done in seconds." />
-            <StepCard title="3) Track payments" desc="Know what’s due and what’s paid." />
+            <StepCard title="1) Add clients/students" desc="Set rates, session defaults, and details." />
+            <StepCard title="2) Log sessions" desc="Track hours, notes, and payments in seconds." />
+            <StepCard title="3) Export & follow up" desc="Export invoices and keep payments on track." />
           </div>
 
           <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-6">
@@ -123,11 +139,13 @@ export default function HomePage() {
               Ready to simplify session-based work?
             </h2>
             <p className="mt-2 text-slate-600">
-              Track sessions and payments with a clean, simple workflow.
+              Track sessions, manage payments, and export invoices with a clean workflow.
             </p>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <a
-                href="https://apps.apple.com/"
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noreferrer"
                 className="rounded-xl bg-slate-900 px-5 py-3 text-center text-sm font-semibold text-white hover:bg-slate-800"
               >
                 Download on the App Store
@@ -139,6 +157,13 @@ export default function HomePage() {
                 Contact support
               </Link>
             </div>
+
+            <p className="mt-3 text-xs text-slate-500">
+              Prefer to check it first?{" "}
+              <a className="underline" href={APP_STORE_URL} target="_blank" rel="noreferrer">
+                View SessionFlow on the App Store
+              </a>
+            </p>
           </div>
         </div>
       </section>
