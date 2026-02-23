@@ -1,7 +1,7 @@
 // app/page.tsx
 import Link from "next/link";
 
-const APP_STORE_URL = "https://apps.apple.com/sg/app/sessionflow/id6751904352";
+const APP_STORE_URL = "/app-store";
 
 export default function HomePage() {
   return (
