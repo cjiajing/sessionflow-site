@@ -62,7 +62,6 @@ export default function SupportPage() {
             </summary>
             <p className="mt-2 text-sm text-slate-700">
               SessionFlow helps you track session fees and payment status.
-              (If your app supports PDF invoices, keep this line — otherwise remove it.)
             </p>
           </details>
 
