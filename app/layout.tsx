@@ -19,13 +19,27 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SessionFlow — Track sessions. Get paid on time.",
   description:
-    "SessionFlow helps tutors, coaches, trainers, and freelancers track sessions, manage payments, and stay organised.",
+    "SessionFlow helps tutors, coaches, trainers, and freelancers track sessions, manage payments, and export invoices.",
   metadataBase: new URL("https://sessionflow.sg"),
+  openGraph: {
+    title: "SessionFlow — Track sessions. Get paid on time.",
+    description:
+      "Track sessions, manage payments, and export invoices — built for session-based work.",
+    url: "https://sessionflow.sg",
+    siteName: "SessionFlow",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SessionFlow — Track sessions. Get paid on time.",
+    description:
+      "Track sessions, manage payments, and export invoices — built for session-based work.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
       <body className="min-h-screen bg-white text-slate-900">
         <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -47,10 +61,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
 
             {/* Better behavior: if user is on /privacy etc, the #cta anchor won’t exist */}
-            <Link
-              href="/#cta"
+            <a
+              href="https://apps.apple.com/sg/app/sessionflow/id6751904352"
+              target="_blank"
+              rel="noreferrer"
               className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
             >
+              Download
+            </a>
               Get SessionFlow
             </Link>
           </div>
