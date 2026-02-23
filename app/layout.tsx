@@ -61,14 +61,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
 
             {/* Better behavior: if user is on /privacy etc, the #cta anchor won’t exist */}
-            <a
-              href="https://apps.apple.com/sg/app/sessionflow/id6751904352"
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              href="/app-store"
               className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
             >
               Download
-            </a>
+            </Link>
               Get SessionFlow
             </Link>
           </div>
