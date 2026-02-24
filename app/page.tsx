@@ -65,23 +65,21 @@ export default function HomePage() {
           {/* Screenshots */}
           <div className="grid gap-6">
             <Image
-              src="/screenshots/dashboard.png"
+              src="/screenshots/Dashboard.png"
               alt="SessionFlow dashboard overview"
               width={500}
               height={1000}
               className="rounded-3xl border border-slate-200 shadow-sm"
             />
-          
             <Image
-              src="/screenshots/payment-tracking.png"
+              src="/screenshots/Payment-Tracking.png"
               alt="Payment tracking screen"
               width={500}
               height={1000}
               className="rounded-3xl border border-slate-200 shadow-sm"
             />
-          
             <Image
-              src="/screenshots/pdf-invoice.png"
+              src="/screenshots/PDF-Invoice.png"
               alt="PDF invoice export screen"
               width={500}
               height={1000}
