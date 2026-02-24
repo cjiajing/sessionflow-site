@@ -53,19 +53,6 @@ export const metadata: Metadata = {
   },
 };
 
-  twitter: {
-    card: "summary_large_image",
-    title: "SessionFlow — Track sessions. Get paid on time.",
-    description:
-      "Track sessions, manage payments, and export invoices — built for session-based work.",
-    images: ["/icon.png"],
-  },
-
-  icons: {
-    icon: "/icon.png",
-  },
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
