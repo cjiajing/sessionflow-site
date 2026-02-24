@@ -39,7 +39,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable}`}
+    >
       <body className="min-h-screen bg-white text-slate-900">
         <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -60,14 +64,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </Link>
             </nav>
 
-            {/* Better behavior: if user is on /privacy etc, the #cta anchor won’t exist */}
             <Link
               href="/app-store"
               className="inline-flex items-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
             >
               Download
-            </Link>
-              Get SessionFlow
             </Link>
           </div>
         </header>
