@@ -61,21 +61,31 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Preview (swap with real screenshots later) */}
-          <div className="rounded-3xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div className="text-sm font-semibold">This week</div>
-              <div className="text-xs text-slate-500">Session summary</div>
-            </div>
-
-            <div className="mt-4 space-y-4">
-              <PreviewRow name="Student — Math" meta="Tue, 7:00pm • 1h" badge="Unpaid" />
-              <PreviewRow name="Client — Training" meta="Thu, 6:30pm • 1.5h" badge="Paid" paid />
-            </div>
-
-            <p className="mt-4 text-xs text-slate-500">
-              Tip: Add 2–3 real screenshots here later for higher conversions.
-            </p>
+          {/* Screenshots */}
+          <div className="grid gap-6">
+            <Image
+              src="/screenshots/dashboard.png"
+              alt="SessionFlow dashboard overview"
+              width={500}
+              height={1000}
+              className="rounded-3xl border border-slate-200 shadow-sm"
+            />
+          
+            <Image
+              src="/screenshots/payment-tracking.png"
+              alt="Payment tracking screen"
+              width={500}
+              height={1000}
+              className="rounded-3xl border border-slate-200 shadow-sm"
+            />
+          
+            <Image
+              src="/screenshots/pdf-invoice.png"
+              alt="PDF invoice export screen"
+              width={500}
+              height={1000}
+              className="rounded-3xl border border-slate-200 shadow-sm"
+            />
           </div>
         </div>
       </section>
