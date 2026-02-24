@@ -18,27 +18,40 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SessionFlow — Track sessions. Get paid on time.",
+  title: "SessionFlow — Session Tracker & Invoice App for Tutors",
   description:
-    "SessionFlow helps tutors, coaches, trainers, and freelancers track sessions, manage payments, and export invoices.",
+    "SessionFlow is a simple session tracking and invoice app for tutors, coaches, and freelancers. Track hours, manage payments, export invoices, and stay organised without spreadsheets.",
   metadataBase: new URL("https://sessionflow.sg"),
 
   openGraph: {
-    title: "SessionFlow — Track sessions. Get paid on time.",
+    title: "SessionFlow — Session Tracker & Invoice App for Tutors",
     description:
-      "Track sessions, manage payments, and export invoices — built for session-based work.",
+      "Track sessions, manage payments, and export invoices with SessionFlow. Built for tutors, coaches, trainers, and freelancers.",
     url: "https://sessionflow.sg",
     siteName: "SessionFlow",
     type: "website",
     images: [
       {
-        url: "/icon.png", // make sure this exists in /public
+        url: "/icon.png",
         width: 1024,
         height: 1024,
         alt: "SessionFlow App Icon",
       },
     ],
   },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "SessionFlow — Session Tracker & Invoice App for Tutors",
+    description:
+      "Track sessions, manage payments, and export invoices. Built for session-based work.",
+    images: ["/icon.png"],
+  },
+
+  icons: {
+    icon: "/icon.png",
+  },
+};
 
   twitter: {
     card: "summary_large_image",
