@@ -9,7 +9,7 @@ export default function HomePage() {
     <div>
       {/* Hero */}
       <section className="mx-auto max-w-6xl px-4 pt-14 pb-10">
-        <div className="grid items-center gap-10 md:grid-cols-2">
+        <div className="grid gap-10 md:grid-cols-2 md:items-start">
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
               Built for session-based work
