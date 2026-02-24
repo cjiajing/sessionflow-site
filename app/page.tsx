@@ -1,5 +1,6 @@
 // app/page.tsx
 import Link from "next/link";
+import Image from "next/image";
 
 const APP_STORE_URL = "/app-store";
 
