@@ -47,7 +47,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <body className="min-h-screen bg-white text-slate-900">
         <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
+          <Image
+            src="/icon.png"
+            alt="SessionFlow icon"
+            width={36}
+            height={36}
+            className="rounded-xl"
+          />
             <Link href="/" className="flex items-center gap-2">
               <div className="h-9 w-9 rounded-xl bg-slate-900" />
               <span className="font-semibold tracking-tight">SessionFlow</span>
