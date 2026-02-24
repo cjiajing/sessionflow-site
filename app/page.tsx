@@ -67,22 +67,22 @@ export default function HomePage() {
             <Image
               src="/screenshots/Dashboard.png"
               alt="SessionFlow dashboard overview"
-              width={500}
-              height={1000}
+              width={250}
+              height={500}
               className="rounded-3xl border border-slate-200 shadow-sm"
             />
             <Image
               src="/screenshots/Payment-Tracking.png"
               alt="Payment tracking screen"
-              width={500}
-              height={1000}
+              width={250}
+              height={500}
               className="rounded-3xl border border-slate-200 shadow-sm"
             />
             <Image
               src="/screenshots/PDF-Invoice.png"
               alt="PDF invoice export screen"
-              width={500}
-              height={1000}
+              width={250}
+              height={500}
               className="rounded-3xl border border-slate-200 shadow-sm"
             />
           </div>
