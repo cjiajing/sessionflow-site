@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   description:
     "SessionFlow helps tutors, coaches, trainers, and freelancers track sessions, manage payments, and export invoices.",
   metadataBase: new URL("https://sessionflow.sg"),
+
   openGraph: {
     title: "SessionFlow — Track sessions. Get paid on time.",
     description:
@@ -29,12 +30,26 @@ export const metadata: Metadata = {
     url: "https://sessionflow.sg",
     siteName: "SessionFlow",
     type: "website",
+    images: [
+      {
+        url: "/icon.png", // make sure this exists in /public
+        width: 1024,
+        height: 1024,
+        alt: "SessionFlow App Icon",
+      },
+    ],
   },
+
   twitter: {
     card: "summary_large_image",
     title: "SessionFlow — Track sessions. Get paid on time.",
     description:
       "Track sessions, manage payments, and export invoices — built for session-based work.",
+    images: ["/icon.png"],
+  },
+
+  icons: {
+    icon: "/icon.png",
   },
 };
 
