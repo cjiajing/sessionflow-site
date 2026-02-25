@@ -117,6 +117,35 @@ export default function RootLayout({
         {/* Page Content */}
         <main>{children}</main>
 
+        {/* Social Follow Section */}
+        <section className="border-t border-slate-200">
+          <div className="mx-auto max-w-6xl px-4 py-8 text-center">
+            <p className="text-sm text-slate-600">
+              Follow SessionFlow for productivity tips for tutors & freelancers.
+            </p>
+        
+            <div className="mt-4 flex justify-center gap-6 text-sm font-medium">
+              <a
+                href="https://www.tiktok.com/@sessionflowapp"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                @sessionflowapp on TikTok
+              </a>
+        
+              <a
+                href="https://www.instagram.com/sessionflowapp"
+                target="_blank"
+                rel="noreferrer"
+                className="hover:underline"
+              >
+                @sessionflowapp on Instagram
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* Footer */}
         <footer className="border-t border-slate-200">
           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-600">
