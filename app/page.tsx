@@ -1,6 +1,7 @@
 // app/page.tsx
 import Link from "next/link";
 import Image from "next/image";
+import ScreenshotCarousel from "@/components/ScreenshotCarousel";
 
 const APP_STORE_URL = "/app-store";
 
@@ -63,29 +64,7 @@ export default function HomePage() {
           </div>
 
           {/* Screenshots */}
-          <div className="grid gap-6">
-            <Image
-              src="/screenshots/Dashboard.png"
-              alt="SessionFlow dashboard overview"
-              width={250}
-              height={500}
-              className="rounded-3xl border border-slate-200 shadow-sm"
-            />
-            <Image
-              src="/screenshots/Payment-Tracking.png"
-              alt="Payment tracking screen"
-              width={250}
-              height={500}
-              className="rounded-3xl border border-slate-200 shadow-sm"
-            />
-            <Image
-              src="/screenshots/PDF-Invoice.png"
-              alt="PDF invoice export screen"
-              width={250}
-              height={500}
-              className="rounded-3xl border border-slate-200 shadow-sm"
-            />
-          </div>
+          <ScreenshotCarousel />
         </div>
       </section>
 
