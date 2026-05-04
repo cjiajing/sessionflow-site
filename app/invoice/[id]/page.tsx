@@ -1,72 +1,95 @@
-import { createClient } from '@supabase/supabase-js';
-import { notFound } from 'next/navigation';
+'use client'; // This allows button clicks to work
 
-// Initialize Supabase Client
+import { createClient } from '@supabase/supabase-js';
+import { useState, useEffect } from 'react';
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default async function InvoicePage({ params }: { params: { id: string } }) {
-  // Fetch data from your 'invoices' table
-  const { data: invoice, error } = await supabase
-    .from('invoices')
-    .select('*')
-    .eq('id', params.id)
-    .single();
+export default function InvoicePage({ params }: { params: { id: string } }) {
+  const [invoice, setInvoice] = useState<any>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  if (error || !invoice) {
-    notFound();
-  }
+  useEffect(() => {
+    async function fetchInvoice() {
+      const { data } = await supabase.from('invoices').select('*').eq('id', params.id).single();
+      setInvoice(data);
+    }
+    fetchInvoice();
+  }, [params.id]);
+
+  const handleMarkAsPaid = async () => {
+    setIsUpdating(true);
+    const { error } = await supabase
+      .from('invoices')
+      .update({ status: 'Payment Pending' }) // Matches your MVP roadmap
+      .eq('id', params.id);
+    
+    if (!error) {
+      setInvoice({ ...invoice, status: 'Payment Pending' });
+    }
+    setIsUpdating(false);
+  };
+
+  if (!invoice) return <div className="p-8 text-center">Loading Invoice...</div>;
 
   const isPaid = invoice.status.toLowerCase() === 'paid';
+  const isPending = invoice.status === 'Payment Pending';
 
   return (
-    <div className="max-w-2xl mx-auto p-8 font-sans">
-      <div className="border rounded-xl p-8 shadow-sm bg-white">
-        {/* Header */}
-        <div className="flex justify-between items-start mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-800">SessionFlow Invoice</h1>
-            <p className="text-slate-500">Ref: {invoice.id.slice(0, 8)}</p>
-          </div>
-          <div className={`px-4 py-1 rounded-full text-xs font-black uppercase ${
+    <div className="max-w-xl mx-auto p-6 font-sans">
+      <div className="border rounded-2xl p-8 shadow-lg bg-white">
+        {/* Header with Status Badge */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-xl font-bold text-slate-800">SessionFlow Bill</h1>
+          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${
             isPaid ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
           }`}>
             {invoice.status}
-          </div>
+          </span>
         </div>
 
         {/* Amount Section */}
-        <div className="mb-8 border-b pb-8">
-          <p className="text-sm text-slate-500 mb-1">Amount Due</p>
-          <h2 className="text-4xl font-bold text-slate-900">
-            ${invoice.amount.toFixed(2)}
-          </h2>
-        </div>
-
-        {/* Client Info */}
         <div className="mb-8">
-          <h3 className="text-sm font-bold uppercase text-slate-400 mb-2">Student</h3>
-          <p className="text-lg text-slate-800">{invoice.student_name}</p>
+          <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Total Due</p>
+          <h2 className="text-5xl font-extrabold text-slate-900">${invoice.amount.toFixed(2)}</h2>
         </div>
 
-        {/* PayNow Instructions */}
-        {!isPaid && (
-          <div className="bg-slate-50 p-6 rounded-lg border border-slate-100">
-            <h3 className="text-sm font-bold text-slate-800 mb-2">Payment Instructions</h3>
-            <p className="text-slate-600 mb-4">{invoice.pay_now_note}</p>
+        {/* Student Detail */}
+        <div className="mb-8 text-slate-600">
+          <p className="text-sm">Invoiced to:</p>
+          <p className="text-lg font-semibold text-slate-800">{invoice.student_name}</p>
+        </div>
+
+        {/* Dynamic Payment Button */}
+        {!isPaid && !isPending && (
+          <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
+            <h3 className="text-sm font-bold text-blue-800 mb-2">PayNow Instructions</h3>
+            <p className="text-sm text-blue-700 mb-6">{invoice.pay_now_note}</p>
             
-            {/* Action Button */}
-            <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">
-              I've Made Payment
+            <button 
+              onClick={handleMarkAsPaid}
+              disabled={isUpdating}
+              className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-md hover:bg-blue-700 transition active:scale-95 disabled:opacity-50"
+            >
+              {isUpdating ? "Processing..." : "I've Made Payment"}
             </button>
           </div>
         )}
 
+        {isPending && (
+          <div className="bg-orange-50 p-6 rounded-xl border border-orange-200 text-center">
+            <p className="text-orange-700 font-bold">Verification Pending</p>
+            <p className="text-sm text-orange-600">The coach has been notified to check the bank app.</p>
+          </div>
+        )}
+
         {isPaid && (
-          <div className="text-center py-6 border-2 border-dashed border-green-200 rounded-lg">
-            <p className="text-green-600 font-bold">Thank you! This invoice has been settled.</p>
+          <div className="bg-green-50 p-6 rounded-xl border border-green-200 text-center">
+            <p className="text-green-700 font-bold">Invoice Paid</p>
+            <p className="text-sm text-green-600">Thank you for your payment!</p>
           </div>
         )}
       </div>
