@@ -13,12 +13,28 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    async function fetchInvoice() {
-      const { data } = await supabase.from('invoices').select('*').eq('id', params.id).single();
+  async function fetchInvoice() {
+    // 1. Unwrap the params first
+    const resolvedParams = await params; 
+    const id = resolvedParams.id;
+
+    if (!id) return;
+
+    // 2. Fetch from Supabase
+    const { data, error } = await supabase
+      .from('invoices')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error("Supabase Error:", error.message);
+    } else {
       setInvoice(data);
     }
-    fetchInvoice();
-  }, [params.id]);
+  }
+  fetchInvoice();
+}, [params]); // Listen to params change
 
   const handleMarkAsPaid = async () => {
     setIsUpdating(true);
