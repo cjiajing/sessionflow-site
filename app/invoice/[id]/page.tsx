@@ -1,4 +1,4 @@
-'use client'; // This allows button clicks to work
+'use client';
 
 import { createClient } from '@supabase/supabase-js';
 import { useState, useEffect } from 'react';
@@ -8,40 +8,41 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export default function InvoicePage({ params }: { params: { id: string } }) {
+export default function InvoicePage({ params }: { params: Promise<{ id: string }> }) {
   const [invoice, setInvoice] = useState<any>(null);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-  async function fetchInvoice() {
-    // 1. Unwrap the params first
-    const resolvedParams = await params; 
-    const id = resolvedParams.id;
+    async function fetchInvoice() {
+      const resolvedParams = await params;
+      const id = resolvedParams.id;
 
-    if (!id) return;
+      if (!id) return;
 
-    // 2. Fetch from Supabase
-    const { data, error } = await supabase
-      .from('invoices')
-      .select('*')
-      .eq('id', id)
-      .single();
-    
-    if (error) {
-      console.error("Supabase Error:", error.message);
-    } else {
-      setInvoice(data);
+      const { data, error } = await supabase
+        .from('invoices')
+        .select('*')
+        .eq('id', id)
+        .single();
+      
+      if (error) {
+        console.error("Supabase Error:", error.message);
+        setError("Invoice not found or database error.");
+      } else {
+        setInvoice(data);
+      }
     }
-  }
-  fetchInvoice();
-}, [params]); // Listen to params change
+    fetchInvoice();
+  }, [params]);
 
   const handleMarkAsPaid = async () => {
+    const resolvedParams = await params;
     setIsUpdating(true);
     const { error } = await supabase
       .from('invoices')
-      .update({ status: 'Payment Pending' }) // Matches your MVP roadmap
-      .eq('id', params.id);
+      .update({ status: 'Payment Pending' })
+      .eq('id', resolvedParams.id);
     
     if (!error) {
       setInvoice({ ...invoice, status: 'Payment Pending' });
@@ -49,65 +50,101 @@ export default function InvoicePage({ params }: { params: { id: string } }) {
     setIsUpdating(false);
   };
 
-  if (!invoice) return <div className="p-8 text-center">Loading Invoice...</div>;
+  if (error) return <div className="p-8 text-center text-red-500">{error}</div>;
+  if (!invoice) return <div className="p-8 text-center text-slate-500 animate-pulse">Loading SessionFlow Bill...</div>;
 
   const isPaid = invoice.status.toLowerCase() === 'paid';
   const isPending = invoice.status === 'Payment Pending';
 
   return (
-    <div className="max-w-xl mx-auto p-6 font-sans">
-      <div className="border rounded-2xl p-8 shadow-lg bg-white">
-        {/* Header with Status Badge */}
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl font-bold text-slate-800">SessionFlow Bill</h1>
-          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${
+    <div className="max-w-2xl mx-auto p-4 sm:p-8 font-sans bg-slate-50 min-h-screen">
+      <div className="border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-xl bg-white">
+        
+        {/* Top Header */}
+        <div className="flex justify-between items-start mb-10">
+          <div>
+            <h1 className="text-3xl font-black text-slate-900 tracking-tight">Invoice</h1>
+            <p className="text-sm text-slate-500 mt-1">ID: {invoice.id.slice(0, 8).toUpperCase()}</p>
+          </div>
+          <span className={`px-4 py-1.5 rounded-full text-[11px] font-black uppercase tracking-wider ${
             isPaid ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'
           }`}>
             {invoice.status}
           </span>
         </div>
 
-        {/* Amount Section */}
-        <div className="mb-8">
-          <p className="text-xs text-slate-400 uppercase font-bold tracking-wider">Total Due</p>
-          <h2 className="text-5xl font-extrabold text-slate-900">${invoice.amount.toFixed(2)}</h2>
+        {/* Client Detail */}
+        <div className="mb-10 pb-8 border-b border-slate-100">
+          <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest mb-1">Billed To</p>
+          <p className="text-xl font-bold text-slate-800">{invoice.student_name}</p>
         </div>
 
-        {/* Student Detail */}
-        <div className="mb-8 text-slate-600">
-          <p className="text-sm">Invoiced to:</p>
-          <p className="text-lg font-semibold text-slate-800">{invoice.student_name}</p>
+        {/* Breakdown Table (Matches 7.jpg) */}
+        <div className="mb-10">
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-100 text-[10px] uppercase tracking-widest font-bold text-slate-400">
+                <th className="pb-3 font-bold">Date</th>
+                <th className="pb-3 font-bold">Services</th>
+                <th className="pb-3 text-right font-bold">Mins</th>
+                <th className="pb-3 text-right font-bold">Fee</th>
+              </tr>
+            </thead>
+            <tbody className="text-slate-700">
+              {invoice.items?.map((item: any, index: number) => (
+                <tr key={index} className="border-b border-slate-50 last:border-0">
+                  <td className="py-4 text-slate-500">{item.date}</td>
+                  <td className="py-4 font-semibold text-slate-800">{item.subject}</td>
+                  <td className="py-4 text-right text-slate-500">{item.minutes}</td>
+                  <td className="py-4 text-right font-bold text-slate-900">${item.fee.toFixed(2)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        {/* Dynamic Payment Button */}
-        {!isPaid && !isPending && (
-          <div className="bg-blue-50 p-6 rounded-xl border border-blue-100">
-            <h3 className="text-sm font-bold text-blue-800 mb-2">PayNow Instructions</h3>
-            <p className="text-sm text-blue-700 mb-6">{invoice.pay_now_note}</p>
-            
-            <button 
-              onClick={handleMarkAsPaid}
-              disabled={isUpdating}
-              className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-md hover:bg-blue-700 transition active:scale-95 disabled:opacity-50"
-            >
-              {isUpdating ? "Processing..." : "I've Made Payment"}
-            </button>
-          </div>
-        )}
+        {/* Total Summary */}
+        <div className="flex justify-between items-center mb-12 py-6 border-t-2 border-slate-900">
+          <p className="text-lg font-bold text-slate-900">Total Amount</p>
+          <h2 className="text-4xl font-black text-blue-600">${invoice.amount.toFixed(2)}</h2>
+        </div>
 
-        {isPending && (
-          <div className="bg-orange-50 p-6 rounded-xl border border-orange-200 text-center">
-            <p className="text-orange-700 font-bold">Verification Pending</p>
-            <p className="text-sm text-orange-600">The coach has been notified to check the bank app.</p>
-          </div>
-        )}
+        {/* Dynamic Action Section */}
+        <div className="space-y-4">
+          {!isPaid && !isPending && (
+            <div className="bg-slate-900 p-8 rounded-2xl text-white shadow-2xl">
+              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">PayNow Instructions</h3>
+              <p className="text-lg font-medium mb-8 text-slate-200">{invoice.pay_now_note}</p>
+              
+              <button 
+                onClick={handleMarkAsPaid}
+                disabled={isUpdating}
+                className="w-full bg-blue-500 text-white py-5 rounded-xl font-black text-lg shadow-lg hover:bg-blue-400 transition active:scale-[0.98] disabled:opacity-50"
+              >
+                {isUpdating ? "Processing..." : "I've Made Payment"}
+              </button>
+              <p className="text-[10px] text-center mt-4 text-slate-500 uppercase tracking-tighter">Clicking confirms you have transferred the funds</p>
+            </div>
+          )}
 
-        {isPaid && (
-          <div className="bg-green-50 p-6 rounded-xl border border-green-200 text-center">
-            <p className="text-green-700 font-bold">Invoice Paid</p>
-            <p className="text-sm text-green-600">Thank you for your payment!</p>
-          </div>
-        )}
+          {isPending && (
+            <div className="bg-orange-50 p-8 rounded-2xl border-2 border-orange-200 text-center">
+              <p className="text-orange-700 text-xl font-black mb-1">Verification Pending</p>
+              <p className="text-slate-600 font-medium text-sm">The tutor has been notified. This status will update once confirmed.</p>
+            </div>
+          )}
+
+          {isPaid && (
+            <div className="bg-green-50 p-8 rounded-2xl border-2 border-green-200 text-center">
+              <p className="text-green-700 text-xl font-black mb-1">Payment Received</p>
+              <p className="text-slate-600 font-medium text-sm">A receipt has been logged in the system. Thank you!</p>
+            </div>
+          )}
+        </div>
+
+        <p className="text-center text-[10px] text-slate-300 font-bold uppercase tracking-widest mt-12">
+          Powered by SessionFlow
+        </p>
       </div>
     </div>
   );
